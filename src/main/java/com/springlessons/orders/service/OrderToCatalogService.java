@@ -1,6 +1,7 @@
 package com.springlessons.orders.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -17,7 +18,7 @@ public class OrderToCatalogService {
     @Autowired
     public OrderToCatalogService(WebClient.Builder webClientBuilder) {
         this.webClient = webClientBuilder
-                .baseUrl("http://127.0.0.1:8081/catalog/api")
+                .baseUrl("http://127.0.0.1:8081")
                 .build();
     }
 
@@ -26,15 +27,20 @@ public class OrderToCatalogService {
         return webClient.get() // http method
                 .uri("/pictures/archive/{ids}", ids) // 2,8,9
                 .retrieve()
-                .toEntity(Void.class)
-                .log()
+//                .bodyToMono(Cat.class)
+//                .bodyToFlux(Cat.class)
+//                .bodyToMono(new ParameterizedTypeReference<List<Cat>>() {
+//                })
+//                .bodyToFlux(new ParameterizedTypeReference<List<Cat>>() {
+//                })
+                .toEntity(Boolean.class)
                 .flatMap(voidResponseEntity -> {
                     if (!voidResponseEntity.getStatusCode().is2xxSuccessful()) {
                         return Mono.just(false);
                     }
                     return Mono.just(true);
-                })
-                .timeout(Duration.ofSeconds(5)) // TimeOutException
-                .onErrorReturn(false);
+                });
+                //.timeout(Duration.ofSeconds(5)) // TimeOutException
+                //.onErrorReturn(false);
     }
 }
