@@ -1,0 +1,33 @@
+Реализовать метод сервис, который возвращает данные для формирования письма пользователю
+в виде Mono<PaymentInfo>
+
+PaymentInfo
+  trader: {},
+  user:{},
+  product: {}
+
+Источники данных
+Сервис продавцов
+GET /api/v1/traders/{id}
+
+ {
+   "name": "",
+   "inn": "",
+   "phone": "",
+ }
+
+Сервис товаров
+GET /api/v1/catalog/product/{id}
+
+ {
+   "name": ""
+ }
+
+Сервис пользователей
+GET /api/v1/user/{id}
+
+ {
+   "f_name": "",
+   "l_name": "",
+   "email": "",
+ }
