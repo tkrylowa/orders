@@ -6,8 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 import java.util.UUID;
 
-
-@Document("pic_shop_order")
+@Document("orders")
 public class Order {
     // уникальный идентификатор записи
     @MongoId

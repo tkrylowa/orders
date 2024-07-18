@@ -5,6 +5,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 
 import java.time.Duration;
@@ -23,6 +24,7 @@ public class OrderToCatalogService {
     }
 
     public Mono<Boolean> archivePictures(List<Integer> picturesIds) {
+
         String ids = String.join(",", picturesIds.stream().map(String::valueOf).toList());
         return webClient.get() // http method
                 .uri("/pictures/archive/{ids}", ids) // 2,8,9
@@ -36,11 +38,16 @@ public class OrderToCatalogService {
                 .toEntity(Boolean.class)
                 .flatMap(voidResponseEntity -> {
                     if (!voidResponseEntity.getStatusCode().is2xxSuccessful()) {
-                        return Mono.just(false);
+                        return Mono.error(new Throwable());
+
                     }
                     return Mono.just(true);
-                });
-                //.timeout(Duration.ofSeconds(5)) // TimeOutException
-                //.onErrorReturn(false);
+                })
+                .timeout(Duration.ofSeconds(5)) // TimeOutException
+
+                // .doOnError(throwable -> {
+                //    throw new ResponseStatusException();
+                // })
+                // .onErrorReturn(false);
     }
 }
