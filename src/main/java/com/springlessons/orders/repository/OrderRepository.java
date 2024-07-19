@@ -1,6 +1,7 @@
 package com.springlessons.orders.repository;
 
 import com.springlessons.orders.model.Order;
+import java.util.List;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import reactor.core.publisher.Flux;
@@ -30,6 +31,9 @@ public interface OrderRepository extends ReactiveMongoRepository<Order, UUID> {
     // Mono<Order> getById(UUID id);
 
     Flux<Order> findAllById(UUID id);
+    Mono<List<Order>> findAllByProductId(int productId);
+    @Query(value = "{userId :  ?0, price: ?1 }")
+    Mono<List<Order>> findAllByUserIdAndPrice(int userId, double price);
 
 }
 
