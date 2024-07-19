@@ -8,12 +8,15 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 
 @Configuration
 public class AppRouting {
-    @Bean
-    public RouterFunction<ServerResponse> routes(OrderHandler orderHandler) {
-        return RouterFunctions.route()
-                .GET("/api/v1/order/{user_id}",
-                        request -> orderHandler.getByUserId(request))
-                .GET()
-                .build();
-    }
+
+  @Bean
+  public RouterFunction<ServerResponse> routes(OrderHandler orderHandler) {
+    return RouterFunctions.route()
+        .GET("/api/v1/order/{user_id}",
+            request -> orderHandler.getByUserId(request))
+        .GET("order/{productID}", request -> orderHandler.getByProductId(request))
+        .GET("order/{userId}/filter", request -> orderHandler.getByUserIdAndPrice(request))
+        .POST("/order", request -> orderHandler.postNewOrder(request))
+        .build();
+  }
 }
