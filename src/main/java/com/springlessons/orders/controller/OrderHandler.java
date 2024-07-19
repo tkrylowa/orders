@@ -1,16 +1,11 @@
 package com.springlessons.orders.controller;
 
-import com.springlessons.orders.Cat;
-import com.springlessons.orders.model.Item;
 import com.springlessons.orders.model.Order;
 import com.springlessons.orders.model.OrderDto;
 import com.springlessons.orders.service.OrderToCatalogService;
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.BodyExtractor;
 import org.springframework.web.reactive.function.BodyExtractors;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -28,7 +23,7 @@ public class OrderHandler {
   public Mono<ServerResponse> getByUserId(ServerRequest request) {
     Integer userId = Integer.parseInt(request.pathVariable("userId"));
     return ServerResponse.ok()
-        .body(service.archivePictures(), Order.class);
+        .body(service.archivePictures(List.of(userId)), Order.class);
   }
 
   public Mono<ServerResponse> getByProductId(ServerRequest request) {
