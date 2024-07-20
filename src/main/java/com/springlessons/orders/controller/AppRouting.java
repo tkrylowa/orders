@@ -12,8 +12,8 @@ public class AppRouting {
     public RouterFunction<ServerResponse> routes(OrderHandler orderHandler) {
         return RouterFunctions.route()
                 .GET("/api/v1/order/{user_id}",
-                        request -> orderHandler.getByUserId(request))
-                .GET()
+                        orderHandler::getByUserId)
+                .GET("/api/v1/catalog/ids", orderHandler::createNewOrder)
                 .build();
     }
 }
