@@ -1,11 +1,21 @@
 package com.springlessons.orders.model;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
+
+import java.util.Map;
 import java.util.UUID;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Document("orders")
 public class Order {
     // уникальный идентификатор записи
@@ -18,33 +28,6 @@ public class Order {
     // - замедляют вставку данных
     @Indexed
     private int userId;
-
-
-    public Order() {
-    }
-
-    public Order(UUID id, int userId) {
-        this.id = id;
-        this.userId = userId;
-
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-
-
+    private Map<Integer, Integer> products;
+    private Double price;
 }
